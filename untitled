@@ -1,0 +1,9 @@
+# capitalize_sentence.py
+"""
+Given a sentence, how would you transform each word to start with a capital letter.
+"""
+
+def capitalize_sentence(string):
+	for i in range(len(string)):
+		if string[i] == ' ':
+			string[i+1].
