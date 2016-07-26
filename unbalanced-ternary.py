@@ -26,6 +26,25 @@ def answer(x):
             weights.append('-')
         if unweighted[j] == -1:
             weights.append('L')
+
+"""Test cases
+==========
+
+Inputs:
+    (int) x = 2
+Output:
+    (string list) ["L", "R"]
+
+Inputs:
+    (int) x = 8
+Output:
+    (string list) ["L", "-", "R"]
+"""
+def main():
+    assert answer(2) == ["L","R"]
+    assert answer(8) == ["L", "-", "R"]
     
+if __name__ == '__main__':
+    main()
    
     
