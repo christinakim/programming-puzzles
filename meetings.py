@@ -1,19 +1,49 @@
-#[(start, end), etc ]
-def scheduling(meetings):
-    sorted_meetings = sorted(meetings)
-    current = sorted_meetings[0]
-    max_rooms = 1
-    in_use = {}
-    
-    for i in range(1, len(sorted_meetings)):
-        if current[1] > sorted_meetings[i][0]:
-            for room_num, end_time in in_use.iteritems():
-                if sorted_meetings[i][0] > in_use[room_num]:
-                    in_use[room_num] = sorted_meetings[i][1]
-                else:
-                    in_use[max_rooms+1] = sorted_meetings[i][1]
-                    max_rooms += 1
-    return max_rooms
+
+"""
+Select the interval, x, with the earliest finishing time.
+Remove x, and all intervals intersecting x, from the set of candidate intervals.
+Continue until the set of candidate intervals is empty.
+"""
+
+def schedule_unweighted_intervals(meetings):
+    '''Use greedy algorithm to schedule unweighted intervals
+       sorting is O(n log n), selecting is O(n)
+       whole operation is dominated by O(n log n)
+    '''
+
+    meetings.sort(lambda x, y: x.finish - y.finish)  # f_1 <= f_2 <= .. <= f_n
+
+    O = []
+    finish = 0
+    for i in meetings:
+        if finish <= i.start:
+            finish = i.finish
+            O.append(i)
+
+def scheduling(intervals):
+        starts, ends = [], []
+        for i in range(len(intervals)):
+            starts.append(intervals[i][0])
+            ends.append(intervals[i][1])
+
+        starts = sorted(starts)
+        ends = sorted(ends)
+
+        #index of start and end
+        s, e = 0, 0
+        min_rooms, cnt_rooms = 0, 0
+        while s < len(starts):
+            if starts[s] < ends[e]:
+                cnt_rooms += 1  # Acquire a room.
+                # Update the min number of rooms.
+                min_rooms = max(min_rooms, cnt_rooms)
+                s += 1
+            else:
+                cnt_rooms -= 1  # Release a room.
+                e += 1
+
+        return min_rooms
+
 
 def main():
     meetings = [(12, 13),(13, 14), (15, 17)]
@@ -24,7 +54,7 @@ def main():
     assert scheduling(meetings) == 1
     assert scheduling(meetings2) == 2
     assert scheduling(meetings3) == 2
-    # assert scheduling(meetings4) == 2
+    assert scheduling(meetings4) == 2
     
     
 if __name__ == '__main__':

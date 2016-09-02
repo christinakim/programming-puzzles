@@ -28,7 +28,6 @@ def change_maker(n, target, combinations = {}):
 			"""
 			combo = [change_maker(n, target - n[i], combinations) + [n[i]] for i in range(len(n)) if target >= n[i]]	
 
-            #finding the min index
 			min_num = len(combo[0])
 			min_index = 0
 			if len(combo) > 1:
@@ -40,12 +39,12 @@ def change_maker(n, target, combinations = {}):
 
 			combinations[target] = combo[min_index]
 
-		return combinations[target]
+			return combinations[target]
 
 
 def main():
 	n = [x for x in range(100)]
-	print timeit.timeit("change_maker([1,2,5,6], 1)", )
+	print timeit.timeit("change_maker([1,2,5,6], 1)", setup = "from __main__ import change_maker")
 	print timeit.timeit("change_maker([1,2,5,6], 10)", setup = "from __main__ import change_maker")
 
 	print timeit.timeit("change_maker([1,2,5,6], 1000)", setup = "from __main__ import change_maker")
